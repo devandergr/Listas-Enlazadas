@@ -1,0 +1,221 @@
+import os
+import random
+
+
+# Esta clase Node nos permite retornar el valor del nodo anterior y siguiente del elemento que se está evaluando.
+class Node:
+    def __init__(self, dato):
+        self.dato = dato
+        self.actual = None
+        self.after = None
+
+    def find_nodes(self):
+        for i in ListStruct.make_list:
+            if self.dato == i:
+                self.actual = ListStruct.make_list.index(i)
+                break
+        self.after = self.actual + 1
+
+    def return_node_before(self):
+        return self.actual
+
+    def return_node_after(self):
+        return self.after
+
+
+class ListStruct:
+    make_list = []  # Esta variable nos permite crear una lista vacía
+    temp_nodes = 0
+
+    # Este parte del código nos permite crear la lista desde cero, ir agregando cada elemento según N nodos
+    # def __init__(self, node):
+    #     self.nodes = node
+    #     ListStruct.temp_nodes = node
+    #     while node >= 0:
+    #         ListStruct.make_list.append(str(input('Insert an element: ')))
+    #         node -= 1
+
+    # Este constructor de la clase nos permite generar una lista con números random para una cantidad de 15 elementos
+    def __init__(self):
+        # Student's Code = 2202025
+        node_initial = 15
+        while node_initial > 0:
+            self.make_list.append(random.randint(1, 25))
+            node_initial -= 1
+
+    # Este método nos permite insertar un nodo al inicio o final de la lista
+    @classmethod
+    def insert_node_beginning_at_end(cls, opt, num):
+        if opt == 1:
+            cls.make_list.insert(0, num)
+            print('Node Inserted')
+        elif opt == 2:
+            cls.make_list.append(num)
+            print('Node Inserted')
+
+    # Este método es más general, ya que nos permite agregar un nodo antes o después del elemento a evaluar.
+    def insert_node(self, opt, number, x):
+        value = self.validate_element(x)
+        if value and opt == 3:
+            node = Node(
+                x)  # aquí creamos un objeto de clase Node para poder encontrar el nodo anterior y después del elemento a evaluar 
+            node.find_nodes()
+            index_before = node.return_node_before()
+            self.make_list.insert(index_before, number)
+        elif value and opt == 4:
+            node = Node(x)
+            node.find_nodes()
+            index_after = node.return_node_after()
+            self.make_list.insert(index_after, number)
+        else:
+            print("Number isn't found")
+
+    # Con este método validamos si elemento que el usuario ha digitado existe
+    def validate_element(self, x):
+        check = False
+        for i in self.make_list:
+            if x == i:
+                check = True
+                break
+        return check
+
+    # Con este método eliminamos el nodo al inicio o al final de la lista
+    def delete_node_beginning_at_end(self, op):
+        if op == 1:
+            self.make_list.pop(0)
+        elif op == 2:
+            for i in self.make_list:
+                if i + 1 == len(self.make_list):
+                    self.make_list.pop(i)
+                    break
+        else:
+            print("You have entered a invalid option...")
+
+    # Este método es más general, ya que por medio del index podemos eliminar el elemento en esa posición encontrada
+    def delete_node_index(self, index):
+        for i in self.make_list:
+            if index == self.make_list.index(i):
+                self.make_list.pop(index)
+
+    # Este método nos permite encontrar el nodo según el index
+    def search_node(self, index):
+        for itera in self.make_list:
+            if index == self.make_list.index(itera):
+                print(f"Node Found with value {itera}")
+                break
+
+    # Con este método nos permitirá saber el tamaño de la lista
+    def length_list(self):
+        count = 0
+        for i in self.make_list:
+            count += 1
+        return count
+
+    # Con este método nos permitirá saber si la lista está vacía o no
+    def is_empty(self):
+        if self.temp_nodes > 0:
+            print("List isn't empty")
+        else:
+            print("List is empty")
+
+    # Aquí mostramos la lista
+    @classmethod
+    def show_list(cls):
+        for _ in cls.make_list:
+            print(cls.make_list)
+
+    # En este método vaciamos la lista
+    def remove_list(self):
+        self.make_list.clear()
+
+
+# Con esta función mostramos el menú principal
+def show_main_menu():
+    print("1. Insert Node")
+    print("2. Delete Node")
+    print("3. Search Node")
+    print("4. Length of list")
+    print("5. Check empty list")
+    print("6. Show list")
+    print("7. Empty list")
+
+# Con esta función mostramos un sub-menú de la opción 1 del menú principal
+def show_menu_insert():
+    print("1. Insert node at beginning")
+    print("2. Insert node at end")
+    print("3. Insert node before element 'x' ")
+    print("4. Insert node after element 'x' ")
+
+# Aqui validamos la opción de salir del ciclo de While para el programa
+def validate(accept):
+    accept.lower()
+    if accept == "yes":
+        return False
+    else:
+        return True
+
+# Con esta función validamos la opción del sub-menu 
+def validate_second_main(choice):
+    if choice == 1:
+        element = str(input(" Enter a element: "))
+        lista.insert_node_beginning_at_end(choice, element)
+        lista.show_list()
+    elif choice == 2:
+        element = str(input(" Enter a element: "))
+        lista.insert_node_beginning_at_end(choice, element)
+        os.system("cls||clear")
+        lista.show_list()
+    elif choice == 3:
+        insert_element = str(input(" Enter an element to insert: "))
+        element = str(input("Element x: "))
+        lista.insert_node(choice, insert_element, element)
+        lista.show_list()
+    elif choice == 4:
+        insert_element = str(input(" Enter an element to insert: "))
+        element = str(input(" Element x: "))
+        lista.insert_node(choice, insert_element, element)
+        lista.show_list()
+    else:
+        print("ERROR!!, Option not found")
+
+
+# nodes = int(input("Enter a number of Nodes: "))
+lista = ListStruct()
+
+op = "NO"
+
+# El ciclo while nos permitira interactuar con el usuario, para acceder a los menus y opciones correspondientes
+while validate(op):
+    show_main_menu()
+    option_main = int(input(" Enter a option: "))
+    if option_main == 1:
+        show_menu_insert()
+        option = int(input(" Enter a option: "))
+        validate_second_main(option)
+        lista.show_list()
+        op = input(" Would you like to finish the program [Yes] or [No]: ")
+    elif option_main == 2:
+        print(" 1. Delete Node at beginning.")
+        print(" 2. Delete Node at end.")
+        value_i = int(input(" Enter a option: "))
+        lista.delete_node_beginning_at_end(value_i)
+        lista.show_list()
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    elif option_main == 3:
+        value_i = int(input(" Enter index to search: "))
+        lista.search_node(value_i)
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    elif option_main == 4:
+        lista.length_list()
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    elif option_main == 5:
+        lista.is_empty()
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    elif option_main == 6:
+        lista.show_list()
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    elif option_main == 7:
+        lista.remove_list()
+        op = input(" Would you like to finish the program? [Yes] or [No]: ")
+    else:
+        print("ERROR!!, Option not valid")
